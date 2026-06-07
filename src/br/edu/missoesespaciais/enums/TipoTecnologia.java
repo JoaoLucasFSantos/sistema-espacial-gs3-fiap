@@ -1,5 +1,11 @@
 package br.edu.missoesespaciais.enums;
 
+/**
+ * Principal tecnologia utilizada em uma missão espacial.
+ *
+ * @author Equipe 200%Java
+ * @version 1.0
+ */
 public enum TipoTecnologia {
 
     SATELITE("Satélite"),
@@ -15,10 +21,12 @@ public enum TipoTecnologia {
         this.descricao = descricao;
     }
 
+    /** @return descrição amigável da tecnologia */
     public String getDescricao() {
         return descricao;
     }
 
+    /** Imprime todas as opções numeradas para uso em menus. */
     public static void listarOpcoes() {
         for (TipoTecnologia tipo : values()) {
             System.out.printf("  %d - %s%n", tipo.ordinal() + 1, tipo.descricao);

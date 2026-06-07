@@ -9,17 +9,24 @@ import java.util.Scanner;
 
 /**
  * Menu de relatórios e estatísticas do sistema.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class RelatorioMenu {
 
     private final Scanner scanner;
     private final RelatorioService relatorioService;
 
+    /**
+     * @param relatorioService serviço de relatórios
+     */
     public RelatorioMenu(RelatorioService relatorioService) {
         this.scanner          = new Scanner(System.in);
         this.relatorioService = relatorioService;
     }
 
+    /** Exibe o submenu de relatórios e mantém o loop até o usuário voltar. */
     public void exibir() {
         int opcao;
         do {
@@ -48,7 +55,6 @@ public class RelatorioMenu {
                 System.out.printf("  Total de missões cadastradas: %d%n",
                         relatorioService.totalMissoes());
                 break;
-
             case 2:
                 Missao prioritaria = relatorioService.missaoMaisPrioritaria();
                 if (prioritaria != null) {
@@ -58,30 +64,24 @@ public class RelatorioMenu {
                     System.out.println("  Nenhuma missão cadastrada.");
                 }
                 break;
-
             case 3:
                 relatorioService.quantidadePorStatus();
                 break;
-
             case 4:
                 AreaImpacto area = relatorioService.areaMaisUtilizada();
                 System.out.printf("  Área mais utilizada: %s%n",
                         area != null ? area.getDescricao() : "nenhuma missão cadastrada");
                 break;
-
             case 5:
                 Ods ods = relatorioService.odsMaisUtilizado();
                 System.out.printf("  ODS mais utilizado: %s%n",
                         ods != null ? ods.getDescricao() : "nenhuma missão cadastrada");
                 break;
-
             case 6:
                 relatorioService.resumoGeral();
                 break;
-
             case 0:
                 break;
-
             default:
                 System.out.println("  Opção inválida.");
         }

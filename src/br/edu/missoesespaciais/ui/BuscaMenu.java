@@ -10,17 +10,25 @@ import java.util.Scanner;
 
 /**
  * Menu de consultas e alteração de status de missões.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class BuscaMenu {
 
     private final Scanner scanner;
     private final MissaoService missaoService;
 
+    /**
+     * @param scanner       scanner compartilhado com o menu principal
+     * @param missaoService serviço de missões
+     */
     public BuscaMenu(Scanner scanner, MissaoService missaoService) {
-        this.scanner      = scanner;
+        this.scanner       = scanner;
         this.missaoService = missaoService;
     }
 
+    /** Exibe o submenu de busca (por nome ou por área). */
     public void exibir() {
         System.out.println("\n" + "=".repeat(45));
         System.out.println("          BUSCA DE MISSÕES");
@@ -31,18 +39,15 @@ public class BuscaMenu {
         System.out.print("  Opção: ");
 
         switch (scanner.nextLine().trim()) {
-            case "1": buscarPorNome();  break;
-            case "2": buscarPorArea();  break;
-            case "0":                   break;
+            case "1": buscarPorNome(); break;
+            case "2": buscarPorArea(); break;
+            case "0":                  break;
             default:
                 System.out.println("  Opção inválida.");
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Listagem
-    // -------------------------------------------------------------------------
-
+    /** Lista todas as missões cadastradas. */
     public void listarTodas() {
         List<Missao> missoes = missaoService.listarMissoes();
 
@@ -54,48 +59,13 @@ public class BuscaMenu {
             System.out.println("  Nenhuma missão cadastrada.");
             return;
         }
-
         for (Missao m : missoes) {
             System.out.println("  " + m);
         }
         System.out.printf("%n  Total: %d missão(ões).%n", missoes.size());
     }
 
-    // -------------------------------------------------------------------------
-    // Buscas
-    // -------------------------------------------------------------------------
-
-    private void buscarPorNome() {
-        System.out.print("\n  Nome (parcial ou completo): ");
-        String termo = scanner.nextLine().trim();
-
-        List<Missao> resultado = missaoService.buscarPorNome(termo);
-        exibirResultados(resultado);
-    }
-
-    private void buscarPorArea() {
-        System.out.println("\n  Área de impacto:");
-        AreaImpacto.listarOpcoes();
-        System.out.print("  Opção: ");
-
-        try {
-            int opcao = Integer.parseInt(scanner.nextLine().trim());
-            if (opcao < 1 || opcao > AreaImpacto.values().length) {
-                System.out.println("  Opção inválida.");
-                return;
-            }
-            AreaImpacto area = AreaImpacto.values()[opcao - 1];
-            List<Missao> resultado = missaoService.buscarPorArea(area);
-            exibirResultados(resultado);
-        } catch (NumberFormatException e) {
-            System.out.println("  Entrada inválida.");
-        }
-    }
-
-    // -------------------------------------------------------------------------
-    // Alteração de status
-    // -------------------------------------------------------------------------
-
+    /** Exibe formulário para alterar o status de uma missão pelo ID. */
     public void alterarStatus() {
         System.out.println("\n" + "=".repeat(45));
         System.out.println("       ALTERAR STATUS DE MISSÃO");
@@ -119,9 +89,8 @@ public class BuscaMenu {
             return;
         }
 
-        System.out.printf("  Missão     : %s%n", missao.getNome());
+        System.out.printf("  Missão      : %s%n", missao.getNome());
         System.out.printf("  Status atual: %s%n%n", missao.getStatus().getDescricao());
-
         System.out.println("  Novo status:");
         StatusMissao.listarOpcoes();
         System.out.print("  Opção: ");
@@ -133,16 +102,36 @@ public class BuscaMenu {
                 return;
             }
             StatusMissao novoStatus = StatusMissao.values()[opcao - 1];
-            String resultado = missaoService.alterarStatus(id, novoStatus);
-            System.out.println("\n  " + resultado);
+            System.out.println("\n  " + missaoService.alterarStatus(id, novoStatus));
         } catch (NumberFormatException e) {
             System.out.println("  Entrada inválida.");
         }
     }
 
     // -------------------------------------------------------------------------
-    // Exibição de resultados
+    // Buscas
     // -------------------------------------------------------------------------
+
+    private void buscarPorNome() {
+        System.out.print("\n  Nome (parcial ou completo): ");
+        exibirResultados(missaoService.buscarPorNome(scanner.nextLine().trim()));
+    }
+
+    private void buscarPorArea() {
+        System.out.println("\n  Área de impacto:");
+        AreaImpacto.listarOpcoes();
+        System.out.print("  Opção: ");
+        try {
+            int opcao = Integer.parseInt(scanner.nextLine().trim());
+            if (opcao < 1 || opcao > AreaImpacto.values().length) {
+                System.out.println("  Opção inválida.");
+                return;
+            }
+            exibirResultados(missaoService.buscarPorArea(AreaImpacto.values()[opcao - 1]));
+        } catch (NumberFormatException e) {
+            System.out.println("  Entrada inválida.");
+        }
+    }
 
     private void exibirResultados(List<Missao> missoes) {
         System.out.println();

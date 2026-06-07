@@ -11,31 +11,29 @@ import java.util.List;
 /**
  * Gera estatísticas e análises sobre as missões cadastradas.
  * Não realiza nenhuma escrita — apenas lê e processa dados do repositório.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class RelatorioService {
 
     private final MissaoRepository repository;
 
+    /**
+     * @param repository repositório de missões a ser utilizado
+     */
     public RelatorioService(MissaoRepository repository) {
         this.repository = repository;
     }
 
-    // -------------------------------------------------------------------------
-    // Totais
-    // -------------------------------------------------------------------------
-
+    /** @return total de missões cadastradas */
     public int totalMissoes() {
         return repository.quantidadeMissoes();
     }
 
-    // -------------------------------------------------------------------------
-    // Distribuições
-    // -------------------------------------------------------------------------
-
     /**
-     * Imprime no console a quantidade de missões por status.
-     * Percorre todos os valores do enum para garantir que statuses
-     * com zero missões também apareçam no relatório.
+     * Imprime a quantidade de missões por status.
+     * Statuses com zero missões também são exibidos.
      */
     public void quantidadePorStatus() {
         System.out.println("  Distribuição por status:");
@@ -45,19 +43,15 @@ public class RelatorioService {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Rankings
-    // -------------------------------------------------------------------------
-
+    /** @return missão com maior prioridade, ou {@code null} se a lista estiver vazia */
     public Missao missaoMaisPrioritaria() {
         return repository.buscarMaiorPrioridade();
     }
 
-    /** Retorna a área de impacto com mais missões cadastradas. */
+    /** @return área de impacto com mais missões cadastradas */
     public AreaImpacto areaMaisUtilizada() {
         AreaImpacto maisUsada = null;
         int maiorContagem = 0;
-
         for (AreaImpacto area : AreaImpacto.values()) {
             int contagem = repository.buscarPorArea(area).size();
             if (contagem > maiorContagem) {
@@ -68,14 +62,13 @@ public class RelatorioService {
         return maisUsada;
     }
 
-    /** Retorna o ODS que aparece mais vezes entre as missões cadastradas. */
+    /** @return ODS que aparece mais vezes entre as missões cadastradas */
     public Ods odsMaisUtilizado() {
         List<Missao> missoes = repository.listarMissoes();
         if (missoes.isEmpty()) return null;
 
         Ods maisUsado = null;
         int maiorContagem = 0;
-
         for (Ods ods : Ods.values()) {
             int contagem = 0;
             for (Missao m : missoes) {
@@ -89,10 +82,7 @@ public class RelatorioService {
         return maisUsado;
     }
 
-    // -------------------------------------------------------------------------
-    // Resumo geral
-    // -------------------------------------------------------------------------
-
+    /** Exibe resumo completo: total, distribuição por status, prioridade, área e ODS. */
     public void resumoGeral() {
         System.out.println("=".repeat(55));
         System.out.println("           RESUMO GERAL DO SISTEMA");
@@ -106,9 +96,7 @@ public class RelatorioService {
         System.out.println();
         if (prioritaria != null) {
             System.out.printf("  Mais prioritária  : [#%03d] %s (prioridade %d)%n",
-                    prioritaria.getId(),
-                    prioritaria.getNome(),
-                    prioritaria.getPrioridade());
+                    prioritaria.getId(), prioritaria.getNome(), prioritaria.getPrioridade());
         } else {
             System.out.println("  Mais prioritária  : nenhuma missão cadastrada.");
         }

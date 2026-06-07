@@ -11,13 +11,19 @@ import br.edu.missoesespaciais.repository.MissaoRepository;
 import java.util.List;
 
 /**
- * Cérebro do sistema. Contém todas as regras de negócio,
- * valida dados e intermedia a UI com o repositório.
+ * Contém as regras de negócio do sistema.
+ * Valida dados e intermedia a UI com o repositório.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class MissaoService {
 
     private final MissaoRepository repository;
 
+    /**
+     * @param repository repositório de missões a ser utilizado
+     */
     public MissaoService(MissaoRepository repository) {
         this.repository = repository;
     }
@@ -27,8 +33,20 @@ public class MissaoService {
     // -------------------------------------------------------------------------
 
     /**
-     * Cria e persiste uma missão espacial completa.
-     * Retorna mensagem de resultado para a UI exibir.
+     * Valida e persiste uma missão espacial completa.
+     *
+     * @param nome         nome da missão
+     * @param objetivo     objetivo principal
+     * @param area         área de impacto
+     * @param ods          ODS relacionado
+     * @param tecnologia   tipo de tecnologia
+     * @param prioridade   grau de prioridade (1 a 5)
+     * @param status       status inicial
+     * @param agencia      agência responsável
+     * @param local        local de operação
+     * @param duracaoMeses duração prevista em meses
+     * @param custoMilhoes custo estimado em milhões de reais
+     * @return mensagem de sucesso ou descrição do erro encontrado
      */
     public String cadastrarMissao(String nome, String objetivo,
                                   AreaImpacto area, Ods ods,
@@ -48,8 +66,17 @@ public class MissaoService {
     }
 
     /**
-     * Versão simplificada: cria missão com dados mínimos.
+     * Valida e persiste uma missão com dados mínimos.
      * Prioridade padrão 3, status PLANEJADA, duração 12 meses, custo 0.
+     *
+     * @param nome       nome da missão
+     * @param objetivo   objetivo principal
+     * @param area       área de impacto
+     * @param ods        ODS relacionado
+     * @param tecnologia tipo de tecnologia
+     * @param agencia    agência responsável
+     * @param local      local de operação
+     * @return mensagem de sucesso ou descrição do erro encontrado
      */
     public String cadastrarMissao(String nome, String objetivo,
                                   AreaImpacto area, Ods ods,
@@ -69,26 +96,41 @@ public class MissaoService {
     // Consultas
     // -------------------------------------------------------------------------
 
+    /** @return lista com todas as missões cadastradas */
     public List<Missao> listarMissoes() {
         return repository.listarMissoes();
     }
 
+    /**
+     * @param termo texto parcial ou completo do nome
+     * @return lista de missões cujo nome contém o termo
+     */
     public List<Missao> buscarPorNome(String termo) {
         return repository.buscarPorNome(termo);
     }
 
+    /**
+     * @param area área de impacto a filtrar
+     * @return lista de missões da área informada
+     */
     public List<Missao> buscarPorArea(AreaImpacto area) {
         return repository.buscarPorArea(area);
     }
 
+    /**
+     * @param id identificador da missão
+     * @return missão encontrada, ou {@code null} se não existir
+     */
     public Missao buscarPorId(int id) {
         return repository.buscarPorId(id);
     }
 
+    /** @return total de missões cadastradas */
     public int quantidadeMissoes() {
         return repository.quantidadeMissoes();
     }
 
+    /** @return missão com maior prioridade, ou {@code null} se a lista estiver vazia */
     public Missao obterMissaoMaisPrioritaria() {
         return repository.buscarMaiorPrioridade();
     }
@@ -99,13 +141,15 @@ public class MissaoService {
 
     /**
      * Localiza a missão pelo ID e altera o status.
-     * Retorna mensagem de resultado para a UI exibir.
+     *
+     * @param id         identificador da missão
+     * @param novoStatus novo status a aplicar
+     * @return mensagem de sucesso ou descrição do erro encontrado
      */
     public String alterarStatus(int id, StatusMissao novoStatus) {
         Missao missao = repository.buscarPorId(id);
-        if (missao == null) {
-            return "Missão #" + id + " não encontrada.";
-        }
+        if (missao == null) return "Missão #" + id + " não encontrada.";
+
         StatusMissao anterior = missao.getStatus();
         missao.alterarStatus(novoStatus);
         return String.format("Status atualizado: %s → %s",
@@ -114,16 +158,18 @@ public class MissaoService {
 
     /**
      * Localiza a missão pelo ID e altera a prioridade.
-     * Retorna mensagem de resultado para a UI exibir.
+     *
+     * @param id             identificador da missão
+     * @param novaPrioridade nova prioridade (1 a 5)
+     * @return mensagem de sucesso ou descrição do erro encontrado
      */
     public String alterarPrioridade(int id, int novaPrioridade) {
         String validacao = validarPrioridade(novaPrioridade);
         if (validacao != null) return validacao;
 
         Missao missao = repository.buscarPorId(id);
-        if (missao == null) {
-            return "Missão #" + id + " não encontrada.";
-        }
+        if (missao == null) return "Missão #" + id + " não encontrada.";
+
         missao.alterarPrioridade(novaPrioridade);
         return "Prioridade atualizada para " + novaPrioridade + ".";
     }
@@ -134,7 +180,10 @@ public class MissaoService {
 
     /**
      * Valida nome e prioridade antes de cadastrar.
-     * Retorna a mensagem de erro encontrada, ou null se tudo estiver ok.
+     *
+     * @param nome       nome da missão
+     * @param prioridade grau de prioridade
+     * @return mensagem de erro, ou {@code null} se os dados forem válidos
      */
     public String validarMissao(String nome, int prioridade) {
         if (nome == null || nome.trim().isEmpty()) {

@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 /**
  * Ponto de entrada da interface. Controla o fluxo geral do sistema.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class MenuPrincipal {
 
@@ -15,6 +18,10 @@ public class MenuPrincipal {
     private final BuscaMenu buscaMenu;
     private final RelatorioMenu relatorioMenu;
 
+    /**
+     * @param missaoService    serviço de missões
+     * @param relatorioService serviço de relatórios
+     */
     public MenuPrincipal(MissaoService missaoService, RelatorioService relatorioService) {
         this.scanner       = new Scanner(System.in);
         this.cadastroMenu  = new CadastroMenu(scanner, missaoService);
@@ -22,6 +29,7 @@ public class MenuPrincipal {
         this.relatorioMenu = new RelatorioMenu(relatorioService);
     }
 
+    /** Inicia o loop principal do sistema. Encerra quando o usuário escolhe 0. */
     public void iniciar() {
         int opcao;
         do {
@@ -50,12 +58,12 @@ public class MenuPrincipal {
 
     private void processarOpcao(int opcao) {
         switch (opcao) {
-            case 1: cadastroMenu.exibir();        break;
-            case 2: buscaMenu.listarTodas();      break;
-            case 3: buscaMenu.exibir();           break;
-            case 4: buscaMenu.alterarStatus();    break;
-            case 5: relatorioMenu.exibir();       break;
-            case 0:                               break;
+            case 1: cadastroMenu.exibir();     break;
+            case 2: buscaMenu.listarTodas();   break;
+            case 3: buscaMenu.exibir();        break;
+            case 4: buscaMenu.alterarStatus(); break;
+            case 5: relatorioMenu.exibir();    break;
+            case 0:                            break;
             default:
                 System.out.println("  Opção inválida. Tente novamente.");
         }

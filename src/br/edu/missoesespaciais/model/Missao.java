@@ -6,8 +6,11 @@ import br.edu.missoesespaciais.enums.StatusMissao;
 import br.edu.missoesespaciais.enums.TipoTecnologia;
 
 /**
- * Entidade base de uma missão sustentável.
+ * Entidade base de uma missão sustentável cadastrada no sistema.
  * Superclasse de {@link MissaoEspacial}.
+ *
+ * @author Equipe 200%Java
+ * @version 1.0
  */
 public class Missao implements IMissao {
 
@@ -22,7 +25,17 @@ public class Missao implements IMissao {
     private int prioridade;
     private StatusMissao status;
 
-    // Construtor completo
+    /**
+     * Construtor completo.
+     *
+     * @param nome           nome da missão
+     * @param objetivo       objetivo principal
+     * @param areaImpacto    área de impacto
+     * @param ods            ODS relacionado
+     * @param tipoTecnologia tipo de tecnologia utilizada
+     * @param prioridade     grau de prioridade (1 a 5)
+     * @param status         status inicial
+     */
     public Missao(String nome, String objetivo, AreaImpacto areaImpacto,
                   Ods ods, TipoTecnologia tipoTecnologia,
                   int prioridade, StatusMissao status) {
@@ -36,7 +49,15 @@ public class Missao implements IMissao {
         this.status         = status;
     }
 
-    // Construtor simplificado — prioridade padrão 3, status PLANEJADA
+    /**
+     * Construtor simplificado — prioridade padrão 3, status PLANEJADA.
+     *
+     * @param nome           nome da missão
+     * @param objetivo       objetivo principal
+     * @param areaImpacto    área de impacto
+     * @param ods            ODS relacionado
+     * @param tipoTecnologia tipo de tecnologia utilizada
+     */
     public Missao(String nome, String objetivo, AreaImpacto areaImpacto,
                   Ods ods, TipoTecnologia tipoTecnologia) {
         this(nome, objetivo, areaImpacto, ods, tipoTecnologia, 3, StatusMissao.PLANEJADA);
@@ -68,17 +89,32 @@ public class Missao implements IMissao {
     // Manipulação
     // -------------------------------------------------------------------------
 
+    /**
+     * @param novoStatus novo status da missão
+     */
     public void alterarStatus(StatusMissao novoStatus) { this.status = novoStatus; }
 
+    /**
+     * @param novaPrioridade novo grau de prioridade (1 a 5)
+     */
     public void alterarPrioridade(int novaPrioridade) { this.prioridade = novaPrioridade; }
 
-    // Sobrecarga: atualiza nome e objetivo
+    /**
+     * Atualiza nome e objetivo simultaneamente.
+     *
+     * @param novoNome     novo nome da missão
+     * @param novoObjetivo novo objetivo da missão
+     */
     public void atualizarInformacoes(String novoNome, String novoObjetivo) {
         this.nome     = novoNome;
         this.objetivo = novoObjetivo;
     }
 
-    // Sobrecarga: atualiza apenas o objetivo
+    /**
+     * Atualiza apenas o objetivo. Sobrecarga de {@link #atualizarInformacoes(String, String)}.
+     *
+     * @param novoObjetivo novo objetivo da missão
+     */
     public void atualizarInformacoes(String novoObjetivo) {
         this.objetivo = novoObjetivo;
     }
@@ -87,7 +123,9 @@ public class Missao implements IMissao {
     // Consulta
     // -------------------------------------------------------------------------
 
-    /** Prioridade alta = grau 1 ou 2. */
+    /**
+     * @return {@code true} se a prioridade for 1 ou 2
+     */
     public boolean isPrioritaria() { return prioridade <= 2; }
 
     public void exibirDetalhes() {
@@ -114,10 +152,10 @@ public class Missao implements IMissao {
     // Getters
     // -------------------------------------------------------------------------
 
-    public int getId()                     { return id; }
-    public String getObjetivo()            { return objetivo; }
-    public Ods getOds()                    { return ods; }
+    public int getId()                      { return id; }
+    public String getObjetivo()             { return objetivo; }
+    public Ods getOds()                     { return ods; }
     public TipoTecnologia getTipoTecnologia() { return tipoTecnologia; }
-    public int getPrioridade()             { return prioridade; }
+    public int getPrioridade()              { return prioridade; }
     public AreaImpacto getAreaImpactoEnum() { return areaImpacto; }
 }

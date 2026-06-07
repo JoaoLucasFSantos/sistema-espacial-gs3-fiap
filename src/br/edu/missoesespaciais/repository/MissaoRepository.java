@@ -10,6 +10,9 @@ import java.util.List;
 /**
  * Gerencia a coleção de missões cadastradas no sistema.
  * Única classe responsável por acessar e manipular a lista interna.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class MissaoRepository {
 
@@ -19,6 +22,9 @@ public class MissaoRepository {
     // Escrita
     // -------------------------------------------------------------------------
 
+    /**
+     * @param missao missão a ser adicionada
+     */
     public void adicionarMissao(Missao missao) {
         missoes.add(missao);
     }
@@ -27,10 +33,17 @@ public class MissaoRepository {
     // Leitura
     // -------------------------------------------------------------------------
 
+    /**
+     * @return lista com todas as missões cadastradas
+     */
     public List<Missao> listarMissoes() {
         return missoes;
     }
 
+    /**
+     * @param id identificador da missão
+     * @return missão encontrada, ou {@code null} se não existir
+     */
     public Missao buscarPorId(int id) {
         for (Missao m : missoes) {
             if (m.getId() == id) return m;
@@ -38,7 +51,12 @@ public class MissaoRepository {
         return null;
     }
 
-    /** Busca parcial, sem distinção de maiúsculas/minúsculas. */
+    /**
+     * Busca parcial, sem distinção de maiúsculas/minúsculas.
+     *
+     * @param termo texto parcial ou completo do nome
+     * @return lista de missões cujo nome contém o termo
+     */
     public List<Missao> buscarPorNome(String termo) {
         List<Missao> resultado = new ArrayList<>();
         for (Missao m : missoes) {
@@ -49,22 +67,26 @@ public class MissaoRepository {
         return resultado;
     }
 
+    /**
+     * @param area área de impacto a filtrar
+     * @return lista de missões da área informada
+     */
     public List<Missao> buscarPorArea(AreaImpacto area) {
         List<Missao> resultado = new ArrayList<>();
         for (Missao m : missoes) {
-            if (m.getAreaImpactoEnum() == area) {
-                resultado.add(m);
-            }
+            if (m.getAreaImpactoEnum() == area) resultado.add(m);
         }
         return resultado;
     }
 
+    /**
+     * @param status status a filtrar
+     * @return lista de missões com o status informado
+     */
     public List<Missao> listarPorStatus(StatusMissao status) {
         List<Missao> resultado = new ArrayList<>();
         for (Missao m : missoes) {
-            if (m.getStatus() == status) {
-                resultado.add(m);
-            }
+            if (m.getStatus() == status) resultado.add(m);
         }
         return resultado;
     }
@@ -73,7 +95,12 @@ public class MissaoRepository {
     // Verificação e contagem
     // -------------------------------------------------------------------------
 
-    /** Verifica se já existe missão com o mesmo nome (sem distinção de maiúsculas). */
+    /**
+     * Verifica se já existe missão com o mesmo nome (sem distinção de maiúsculas).
+     *
+     * @param nome nome a verificar
+     * @return {@code true} se o nome já estiver cadastrado
+     */
     public boolean existeMissao(String nome) {
         for (Missao m : missoes) {
             if (m.getNome().equalsIgnoreCase(nome)) return true;
@@ -81,6 +108,9 @@ public class MissaoRepository {
         return false;
     }
 
+    /**
+     * @return total de missões cadastradas
+     */
     public int quantidadeMissoes() {
         return missoes.size();
     }
@@ -89,15 +119,15 @@ public class MissaoRepository {
     // Consultas para relatório
     // -------------------------------------------------------------------------
 
-    /** Retorna a missão com menor valor de prioridade (1 = mais alta). */
+    /**
+     * @return missão com menor valor de prioridade (1 = mais alta),
+     *         ou {@code null} se a lista estiver vazia
+     */
     public Missao buscarMaiorPrioridade() {
         if (missoes.isEmpty()) return null;
-
         Missao maior = missoes.get(0);
         for (Missao m : missoes) {
-            if (m.getPrioridade() < maior.getPrioridade()) {
-                maior = m;
-            }
+            if (m.getPrioridade() < maior.getPrioridade()) maior = m;
         }
         return maior;
     }

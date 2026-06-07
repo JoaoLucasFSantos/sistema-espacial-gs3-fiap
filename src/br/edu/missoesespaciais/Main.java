@@ -8,11 +8,14 @@ import br.edu.missoesespaciais.ui.MenuPrincipal;
 /**
  * Ponto de entrada da aplicação.
  * Instancia as dependências e inicia o sistema.
+ *
+ * @author Equipe 200%Java
+ * @version 1.0
  */
 public class Main {
 
     public static void main(String[] args) {
-        MissaoRepository repository = new MissaoRepository();
+        MissaoRepository repository       = new MissaoRepository();
         MissaoService    missaoService    = new MissaoService(repository);
         RelatorioService relatorioService = new RelatorioService(repository);
 

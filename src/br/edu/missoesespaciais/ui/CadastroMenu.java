@@ -10,17 +10,25 @@ import java.util.Scanner;
 
 /**
  * Coleta os dados necessários para cadastrar uma missão espacial.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class CadastroMenu {
 
     private final Scanner scanner;
     private final MissaoService missaoService;
 
+    /**
+     * @param scanner       scanner compartilhado com o menu principal
+     * @param missaoService serviço de missões
+     */
     public CadastroMenu(Scanner scanner, MissaoService missaoService) {
-        this.scanner      = scanner;
+        this.scanner       = scanner;
         this.missaoService = missaoService;
     }
 
+    /** Exibe o formulário de cadastro e envia os dados ao serviço. */
     public void exibir() {
         System.out.println("\n" + "=".repeat(45));
         System.out.println("         CADASTRO DE MISSÃO");
@@ -31,19 +39,18 @@ public class CadastroMenu {
         String agencia   = lerTexto("  Agência responsável: ");
         String local     = lerTexto("  Local de operação  : ");
 
-        AreaImpacto area        = lerAreaImpacto();
-        Ods ods                 = lerOds();
+        AreaImpacto    area      = lerAreaImpacto();
+        Ods            ods       = lerOds();
         TipoTecnologia tecnologia = lerTipoTecnologia();
-        StatusMissao status     = lerStatus();
-        int prioridade          = lerPrioridade();
-        int duracao             = lerInteiro("  Duração (meses)    : ");
-        double custo            = lerDecimal("  Custo est. (milhões R$): ");
+        StatusMissao   status    = lerStatus();
+        int            prioridade = lerPrioridade();
+        int            duracao   = lerInteiro("  Duração (meses)    : ");
+        double         custo     = lerDecimal("  Custo est. (milhões R$): ");
 
         String resultado = missaoService.cadastrarMissao(
                 nome, objetivo, area, ods, tecnologia,
                 prioridade, status, agencia, local, duracao, custo
         );
-
         System.out.println("\n  " + resultado);
     }
 
@@ -54,29 +61,25 @@ public class CadastroMenu {
     private AreaImpacto lerAreaImpacto() {
         System.out.println("\n  Área de impacto:");
         AreaImpacto.listarOpcoes();
-        int opcao = lerOpcaoEnum("  Opção: ", AreaImpacto.values().length);
-        return AreaImpacto.values()[opcao - 1];
+        return AreaImpacto.values()[lerOpcaoEnum("  Opção: ", AreaImpacto.values().length) - 1];
     }
 
     private Ods lerOds() {
         System.out.println("\n  ODS relacionado:");
         Ods.listarOpcoes();
-        int opcao = lerOpcaoEnum("  Opção: ", Ods.values().length);
-        return Ods.values()[opcao - 1];
+        return Ods.values()[lerOpcaoEnum("  Opção: ", Ods.values().length) - 1];
     }
 
     private TipoTecnologia lerTipoTecnologia() {
         System.out.println("\n  Tipo de tecnologia:");
         TipoTecnologia.listarOpcoes();
-        int opcao = lerOpcaoEnum("  Opção: ", TipoTecnologia.values().length);
-        return TipoTecnologia.values()[opcao - 1];
+        return TipoTecnologia.values()[lerOpcaoEnum("  Opção: ", TipoTecnologia.values().length) - 1];
     }
 
     private StatusMissao lerStatus() {
         System.out.println("\n  Status inicial:");
         StatusMissao.listarOpcoes();
-        int opcao = lerOpcaoEnum("  Opção: ", StatusMissao.values().length);
-        return StatusMissao.values()[opcao - 1];
+        return StatusMissao.values()[lerOpcaoEnum("  Opção: ", StatusMissao.values().length) - 1];
     }
 
     private int lerPrioridade() {
@@ -124,7 +127,13 @@ public class CadastroMenu {
         }
     }
 
-    /** Lê uma opção numérica dentro do intervalo [1, max], repetindo até acertar. */
+    /**
+     * Lê uma opção numérica no intervalo [1, max], repetindo até entrada válida.
+     *
+     * @param mensagem prompt exibido ao usuário
+     * @param max      valor máximo aceito
+     * @return opção válida escolhida pelo usuário
+     */
     private int lerOpcaoEnum(String mensagem, int max) {
         while (true) {
             System.out.print(mensagem);

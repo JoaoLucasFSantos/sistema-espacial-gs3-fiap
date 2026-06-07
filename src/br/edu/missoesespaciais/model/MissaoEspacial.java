@@ -8,6 +8,9 @@ import br.edu.missoesespaciais.enums.TipoTecnologia;
 /**
  * Especialização de {@link Missao} com dados operacionais espaciais.
  * É o objeto principal com o qual o sistema trabalha.
+ *
+ * @author 200%Java
+ * @version 1.0
  */
 public class MissaoEspacial extends Missao {
 
@@ -16,7 +19,21 @@ public class MissaoEspacial extends Missao {
     private int duracaoMeses;
     private double custoEstimadoMilhoes;
 
-    // Construtor completo
+    /**
+     * Construtor completo.
+     *
+     * @param nome                 nome da missão
+     * @param objetivo             objetivo principal
+     * @param areaImpacto          área de impacto
+     * @param ods                  ODS relacionado
+     * @param tipoTecnologia       tipo de tecnologia utilizada
+     * @param prioridade           grau de prioridade (1 a 5)
+     * @param status               status inicial
+     * @param agenciaResponsavel   agência ou organização responsável
+     * @param localOperacao        local de operação
+     * @param duracaoMeses         duração prevista em meses
+     * @param custoEstimadoMilhoes custo estimado em milhões de reais
+     */
     public MissaoEspacial(String nome, String objetivo,
                           AreaImpacto areaImpacto, Ods ods,
                           TipoTecnologia tipoTecnologia,
@@ -30,7 +47,17 @@ public class MissaoEspacial extends Missao {
         this.custoEstimadoMilhoes = custoEstimadoMilhoes;
     }
 
-    // Construtor simplificado — duração padrão 12 meses, custo 0
+    /**
+     * Construtor simplificado — duração padrão 12 meses, custo 0.
+     *
+     * @param nome               nome da missão
+     * @param objetivo           objetivo principal
+     * @param areaImpacto        área de impacto
+     * @param ods                ODS relacionado
+     * @param tipoTecnologia     tipo de tecnologia utilizada
+     * @param agenciaResponsavel agência ou organização responsável
+     * @param localOperacao      local de operação
+     */
     public MissaoEspacial(String nome, String objetivo,
                           AreaImpacto areaImpacto, Ods ods,
                           TipoTecnologia tipoTecnologia,
@@ -73,6 +100,9 @@ public class MissaoEspacial extends Missao {
     // Específicos
     // -------------------------------------------------------------------------
 
+    /**
+     * @return custo estimado dividido pela duração, ou 0.0 se duração for zero
+     */
     public double calcularInvestimentoMensal() {
         if (duracaoMeses == 0) return 0.0;
         return custoEstimadoMilhoes / duracaoMeses;
@@ -93,13 +123,13 @@ public class MissaoEspacial extends Missao {
     // Getters e Setters
     // -------------------------------------------------------------------------
 
-    public String getAgenciaResponsavel()  { return agenciaResponsavel; }
+    public String getAgenciaResponsavel()   { return agenciaResponsavel; }
     public void setAgenciaResponsavel(String agenciaResponsavel) { this.agenciaResponsavel = agenciaResponsavel; }
 
-    public String getLocalOperacao()       { return localOperacao; }
+    public String getLocalOperacao()        { return localOperacao; }
     public void setLocalOperacao(String localOperacao) { this.localOperacao = localOperacao; }
 
-    public int getDuracaoMeses()           { return duracaoMeses; }
+    public int getDuracaoMeses()            { return duracaoMeses; }
     public void setDuracaoMeses(int duracaoMeses) { this.duracaoMeses = duracaoMeses; }
 
     public double getCustoEstimadoMilhoes() { return custoEstimadoMilhoes; }
