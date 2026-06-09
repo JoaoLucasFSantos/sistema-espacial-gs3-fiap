@@ -108,8 +108,6 @@ Ao iniciar, o sistema exibe o menu principal:
   Opção:
 ```
 
----
-
 ## 👥 Integrantes do Grupo
 
 | Nome | RM |
