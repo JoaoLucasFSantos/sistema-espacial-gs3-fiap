@@ -122,12 +122,6 @@ Ao iniciar, o sistema exibe o menu principal:
 
 ---
 
-## 🎬 Vídeo de Apresentação
-
-> 🔗 _Link será adicionado em breve._
-
----
-
 ## 🛠️ Tecnologias Utilizadas
 
 - Java (JDK 11+)
